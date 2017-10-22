@@ -1,13 +1,9 @@
 package com.controllers.rest;
 
-import com.User;
-import com.UserPrincipal;
 import com.repositories.UserRepository;
 import com.services.SessionsService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.session.SessionInformation;
 import org.springframework.security.core.session.SessionRegistry;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;

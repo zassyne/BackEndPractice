@@ -1,6 +1,6 @@
 package com.services;
 
-import com.User;
+import com.entities.User;
 import com.UserPrincipal;
 import com.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;

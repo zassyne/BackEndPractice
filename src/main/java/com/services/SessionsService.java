@@ -7,6 +7,8 @@ import org.springframework.security.core.session.SessionRegistry;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
+import java.util.stream.Collectors;
+
 @Service
 public class SessionsService  {
 
@@ -15,17 +17,12 @@ public class SessionsService  {
 
 
     public void expireSessionsOf(String username) {
-        for (Object principal : sessionRegistry.getAllPrincipals()) {
-            if (principal instanceof UserPrincipal) {
-                UserDetails userDetails = (UserDetails) principal;
-                if (userDetails.getUsername().equals(username)) {
-                    for (SessionInformation information : sessionRegistry.getAllSessions(userDetails, true)) {
-                        information.expireNow();
-                    }
-                }
-            }
-        }
+        sessionRegistry.getAllPrincipals().stream()
+                .filter(principal -> principal instanceof UserPrincipal)
+                .map(principal -> (UserDetails) principal)
+                .filter(userDetails -> userDetails.getUsername().equals(username))
+                .flatMap(userDetails -> sessionRegistry.getAllSessions(userDetails, true)
+                .stream()).forEach(SessionInformation::expireNow);
     }
-
 
 }
